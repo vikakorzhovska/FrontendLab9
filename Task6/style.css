@@ -1,0 +1,48 @@
+.container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.notification {
+    position: relative;
+    padding: 15px 20px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 25px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+}
+
+.notification.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.notification.info {
+    background-color: #2196f3;
+}
+
+.notification.success {
+    background-color: #4caf50;
+}
+
+.notification.warning {
+    background-color: #ff9800;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.close-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}

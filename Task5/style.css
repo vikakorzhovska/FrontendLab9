@@ -1,0 +1,22 @@
+.tab-container {
+    display: flex;
+    gap: 10px;
+}
+
+.tab {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.tab.active {
+    font-weight: bold;
+    background-color: #e0e0e0;
+}
+
+.content-container {
+    margin-top: 20px;
+}
+
+.tab-content {
+    display: none;
+}

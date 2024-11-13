@@ -1,0 +1,47 @@
+#sliderContainer {
+    position: relative;
+    overflow: hidden;
+}
+#slider{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.slide img {
+    width: 1000px;
+    height: 1000px;
+    object-fit: cover;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 5px #4CAF50;
+}
+
