@@ -35,12 +35,15 @@ class Tab {
         this.contentContainer.appendChild(contentDiv);
 
         if (tabIndex === this.activeTabIndex) {
-            tab.classList.add('active');
-            contentDiv.style.display = 'block';
+            this.setActiveTab(tabIndex);
         }
     }
 
     switchTab(index) {
+        this.setActiveTab(index);
+    }
+
+    setActiveTab(index) {
         this.tabs[this.activeTabIndex].classList.remove('active');
         this.contents[this.activeTabIndex].style.display = 'none';
 
@@ -57,4 +60,5 @@ const tabSystem = new Tab(container);
 tabSystem.addTab('Вкладка 1', document.createTextNode('Вміст для вкладки 1'));
 tabSystem.addTab('Вкладка 2', document.createTextNode('Вміст для вкладки 2'));
 tabSystem.addTab('Вкладка 3', document.createTextNode('Вміст для вкладки 3'));
+
 
