@@ -14,7 +14,7 @@ class Form {
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     }
 
-    addInputField(name, type = 'text', placeholder = '', validation = null, errorMessage = '') {
+    addInputField({ name, type = 'text', placeholder = '', validation = null, errorMessage = '' }) {  // зміна тут
         let wrapper = document.createElement('div');
         wrapper.className = 'field-wrapper';
 
@@ -40,7 +40,7 @@ class Form {
         }
     }
 
-    addSelectField(name, options = [], validation = null, errorMessage = '') {
+    addSelectField({ name, options = [], validation = null, errorMessage = '' }) {  // зміна тут
         let wrapper = document.createElement('div');
         wrapper.className = 'field-wrapper';
 
@@ -123,31 +123,32 @@ class Form {
 
 let form = new Form('#formContainer');
 
-form.addInputField(
-    'username',
-    'text',
-    'Введіть ім\'я користувача',
-    value => /^[a-zA-Z]+$/.test(value.trim()),
-    'Ім\'я користувача повинно містити лише літери'
-);
-form.addInputField(
-    'email',
-    'email',
-    'Введіть електронну пошту',
-    value => /\S+@\S+\.\S+/.test(value),
-    'Введіть коректну електронну пошту (example@gmail.com)'
-);
+form.addInputField({
+    name: 'username',
+    type: 'text',
+    placeholder: 'Введіть ім\'я користувача',
+    validation: value => /^[a-zA-Z]+$/.test(value.trim()),
+    errorMessage: 'Ім\'я користувача повинно містити лише літери'
+});
 
-form.addSelectField(
-    'gender',
-    [
+form.addInputField({
+    name: 'email',
+    type: 'email',
+    placeholder: 'Введіть електронну пошту',
+    validation: value => /\S+@\S+\.\S+/.test(value),
+    errorMessage: 'Введіть коректну електронну пошту (example@gmail.com)'
+});
+
+form.addSelectField({
+    name: 'gender',
+    options: [
         { value: '', label: 'Виберіть стать' },
         { value: 'male', label: 'Чоловік' },
         { value: 'female', label: 'Жінка' }
     ],
-    value => value !== '',
-    'Будь ласка, виберіть стать'
-);
+    validation: value => value !== '',
+    errorMessage: 'Будь ласка, виберіть стать'
+});
 
 form.addButton('Відправити', 'submit');
 
