@@ -18,6 +18,10 @@ class SliderRenderer {
         this.container.appendChild(this.slidesContainer);
     }
 
+    addSlides(contents) {
+        contents.forEach(content => this.addSlide(content));
+    }
+
     addSlide(content) {
         let slide = document.createElement('div');
         slide.classList.add('slide');
@@ -69,14 +73,16 @@ class SliderController {
 
 let sliderRenderer = new SliderRenderer('#sliderContainer');
 let sliderController = new SliderController(sliderRenderer);
-sliderRenderer.addSlide('<img src="images/photo1.jpg" alt="Slide 1">');
-sliderRenderer.addSlide('<img src="images/photo2.jpg" alt="Slide 2">');
-sliderRenderer.addSlide('<img src="images/photo3.jpg" alt="Slide 3">');
-sliderRenderer.addSlide('<img src="images/photo4.jpg" alt="Slide 4">');
-sliderRenderer.addSlide('<img src="images/photo5.jpg" alt="Slide 5">');
-sliderRenderer.addSlide('<img src="images/photo6.jpg" alt="Slide 6">');
-sliderRenderer.addSlide('<img src="images/photo7.jpg" alt="Slide 7">');
-sliderRenderer.addSlide('<img src="images/photo8.jpg" alt="Slide 8">');
+sliderRenderer.addSlides([
+    '<img src="images/photo1.jpg" alt="Slide 1">',
+    '<img src="images/photo2.jpg" alt="Slide 2">',
+    '<img src="images/photo3.jpg" alt="Slide 3">',
+    '<img src="images/photo4.jpg" alt="Slide 4">',
+    '<img src="images/photo5.jpg" alt="Slide 5">',
+    '<img src="images/photo6.jpg" alt="Slide 6">',
+    '<img src="images/photo7.jpg" alt="Slide 7">',
+    '<img src="images/photo8.jpg" alt="Slide 8">',
+]);
 
 
 document.querySelector('#nextButton').addEventListener('click', () => sliderController.nextSlide());
