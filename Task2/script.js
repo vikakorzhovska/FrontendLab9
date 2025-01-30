@@ -51,12 +51,15 @@ class SliderController {
     }
 
     nextSlide() {
-        this.currentSlide = (this.currentSlide + 1) % this.renderer.slides.length;
-        this.renderer.updateSlidePosition(this.currentSlide, this.direction);
+        this.moveSlide(1);
     }
 
     prevSlide() {
-        this.currentSlide = (this.currentSlide - 1 + this.renderer.slides.length) % this.renderer.slides.length;
+        this.moveSlide(-1);
+    }
+
+    moveSlide(step) {
+        this.currentSlide = (this.currentSlide + step + this.renderer.slides.length) % this.renderer.slides.length;
         this.renderer.updateSlidePosition(this.currentSlide, this.direction);
     }
 
