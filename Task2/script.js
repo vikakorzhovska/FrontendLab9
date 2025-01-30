@@ -1,8 +1,10 @@
 class SliderRenderer {
-    constructor(containerSelector) {
+    constructor(containerSelector, width = 1000, height = 1000) {
         this.container = document.querySelector(containerSelector);
         this.slidesContainer = document.createElement('div');
         this.slides = [];
+        this.width = width;
+        this.height = height;
 
         this.setupSlider();
     }
@@ -10,8 +12,8 @@ class SliderRenderer {
     setupSlider() {
         this.container.classList.add('slider');
         this.container.style.overflow = 'hidden';
-        this.container.style.width = '1000px';
-        this.container.style.height = '1000px';
+        this.container.style.width = `${this.width}px`;
+        this.container.style.height = `${this.height}px`;
 
         this.slidesContainer.style.display = 'flex';
         this.slidesContainer.style.transition = 'transform 0.5s ease';
@@ -21,8 +23,8 @@ class SliderRenderer {
     addSlide(content) {
         let slide = document.createElement('div');
         slide.classList.add('slide');
-        slide.style.width = '1000px';
-        slide.style.height = '1000px';
+        slide.style.width = `${this.width}px`;
+        slide.style.height = `${this.height}px`;
         slide.style.display = 'flex';
         slide.style.alignItems = 'center';
         slide.style.justifyContent = 'center';
@@ -36,7 +38,7 @@ class SliderRenderer {
     }
 
     updateSlidePosition(currentSlide, direction) {
-        const offset = currentSlide * 1000;
+        const offset = currentSlide * this.width;
         this.slidesContainer.style.transform = direction === 'horizontal'
             ? `translateX(-${offset}px)`
             : `translateY(-${offset}px)`;
