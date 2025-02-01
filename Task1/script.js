@@ -37,13 +37,28 @@ class Modal {
         this.header.innerText = title;
     }
 
-    onMouseDown(event) {
-        event.preventDefault();
+    // Винести логіку збереження позиції в окремий метод
+    savePositionOffset(event) {
         this.offsetX = event.clientX - this.modal.getBoundingClientRect().left;
         this.offsetY = event.clientY - this.modal.getBoundingClientRect().top;
+    }
 
+    // Винести додавання обробників подій в окремий метод
+    addMoveListeners() {
         document.addEventListener('mousemove', this.onMouseMove);
         document.addEventListener('mouseup', this.onMouseUp);
+    }
+
+    // Винести видалення обробників подій в окремий метод
+    removeMoveListeners() {
+        document.removeEventListener('mousemove', this.onMouseMove);
+        document.removeEventListener('mouseup', this.onMouseUp);
+    }
+
+    onMouseDown(event) {
+        event.preventDefault();
+        this.savePositionOffset(event);
+        this.addMoveListeners();
     }
 
     onMouseMove = (event) => {
@@ -52,10 +67,10 @@ class Modal {
     }
 
     onMouseUp = () => {
-        document.removeEventListener('mousemove', this.onMouseMove);
-        document.removeEventListener('mouseup', this.onMouseUp);
+        this.removeMoveListeners();
     }
 }
+
 let modal = new Modal();
 modal.setTitle("Заголовок");
 modal.setContent("<p>Якийсь контент.</p>");
