@@ -1,9 +1,23 @@
+class TabState {
+    constructor() {
+        this.activeTabIndex = 0;
+    }
+
+    setActiveTab(index) {
+        this.activeTabIndex = index;
+    }
+
+    getActiveTabIndex() {
+        return this.activeTabIndex;
+    }
+}
+
 class Tab {
     constructor(container) {
         this.container = container;
         this.tabs = [];
         this.contents = [];
-        this.activeTabIndex = 0;
+        this.tabState = new TabState(); // Використовуємо TabState для управління станом вкладок
 
         this.tabContainer = document.createElement('div');
         this.contentContainer = document.createElement('div');
@@ -25,7 +39,7 @@ class Tab {
 
         const contentDiv = document.createElement('div');
         contentDiv.className = 'tab-content';
-        contentDiv.style.display = tabIndex === this.activeTabIndex ? 'block' : 'none';
+        contentDiv.style.display = tabIndex === this.tabState.getActiveTabIndex() ? 'block' : 'none';
         contentDiv.appendChild(content);
 
         this.tabs.push(tab);
@@ -34,7 +48,7 @@ class Tab {
         this.tabContainer.appendChild(tab);
         this.contentContainer.appendChild(contentDiv);
 
-        if (tabIndex === this.activeTabIndex) {
+        if (tabIndex === this.tabState.getActiveTabIndex()) {
             this.setActiveTab(tabIndex);
         }
     }
@@ -44,13 +58,13 @@ class Tab {
     }
 
     setActiveTab(index) {
-        this.tabs[this.activeTabIndex].classList.remove('active');
-        this.contents[this.activeTabIndex].style.display = 'none';
+        this.tabs[this.tabState.getActiveTabIndex()].classList.remove('active');
+        this.contents[this.tabState.getActiveTabIndex()].style.display = 'none';
 
-        this.activeTabIndex = index;
+        this.tabState.setActiveTab(index); // Оновлюємо стан активної вкладки
 
-        this.tabs[this.activeTabIndex].classList.add('active');
-        this.contents[this.activeTabIndex].style.display = 'block';
+        this.tabs[this.tabState.getActiveTabIndex()].classList.add('active');
+        this.contents[this.tabState.getActiveTabIndex()].style.display = 'block';
     }
 }
 
@@ -60,5 +74,3 @@ const tabSystem = new Tab(container);
 tabSystem.addTab('Вкладка 1', document.createTextNode('Вміст для вкладки 1'));
 tabSystem.addTab('Вкладка 2', document.createTextNode('Вміст для вкладки 2'));
 tabSystem.addTab('Вкладка 3', document.createTextNode('Вміст для вкладки 3'));
-
-
