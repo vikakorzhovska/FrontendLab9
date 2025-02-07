@@ -1,31 +1,53 @@
-class Notification {
+// Відповідає тільки за DOM-операції з контейнером
+class NotificationContainer {
     constructor() {
         this.container = document.createElement('div');
         this.container.className = 'container';
         document.body.appendChild(this.container);
     }
 
-    createNotification(message, type = 'info', duration = 3000) {
-        let notification = document.createElement('div');
+    add(element) {
+        this.container.appendChild(element);
+    }
+}
+
+// Відповідає тільки за створення та видалення повідомлень
+class NotificationElement {
+    create(message, type) {
+        const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.textContent = message;
 
-        let closeButton = document.createElement('span');
+        const closeButton = document.createElement('span');
         closeButton.className = 'close-button';
         closeButton.textContent = '×';
-        closeButton.addEventListener('click', () => this.closeNotification(notification));
-
         notification.appendChild(closeButton);
-        this.container.appendChild(notification);
 
-        setTimeout(() => this.closeNotification(notification), duration);
+        return notification;
     }
 
-    closeNotification(notification) {
-        if (notification) {
-            notification.classList.add('hide');
-            notification.addEventListener('transitionend', () => notification.remove());
-        }
+    remove(notification) {
+        notification.classList.add('hide');
+        notification.addEventListener('transitionend', () => notification.remove());
+    }
+}
+
+// Відповідає за логіку роботи повідомлень
+class Notification {
+    constructor() {
+        this.container = new NotificationContainer();
+        this.element = new NotificationElement();
+    }
+
+    createNotification(message, type = 'info', duration = 3000) {
+        const notification = this.element.create(message, type);
+
+        notification.querySelector('.close-button')
+            .addEventListener('click', () => this.element.remove(notification));
+
+        this.container.add(notification);
+
+        setTimeout(() => this.element.remove(notification), duration);
     }
 }
 
