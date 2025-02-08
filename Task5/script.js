@@ -15,17 +15,20 @@ class Tab {
         this.container.appendChild(this.contentContainer);
     }
 
+    createElement(tag, className, text = '') {
+        const element = document.createElement(tag);
+        element.className = className;
+        if (text) element.textContent = text;
+        return element;
+    }
+
     addTab(title, content) {
         const tabIndex = this.tabs.length;
 
-        const tab = document.createElement('button');
-        tab.textContent = title;
-        tab.className = 'tab';
+        const tab = this.createElement('button', 'tab', title);
         tab.addEventListener('click', () => this.switchTab(tabIndex));
 
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'tab-content';
-        contentDiv.style.display = tabIndex === this.activeTabIndex ? 'block' : 'none';
+        const contentDiv = this.createElement('div', 'tab-content');
         contentDiv.appendChild(content);
 
         this.tabs.push(tab);
@@ -34,8 +37,8 @@ class Tab {
         this.tabContainer.appendChild(tab);
         this.contentContainer.appendChild(contentDiv);
 
-        if (tabIndex === this.activeTabIndex) {
-            this.setActiveTab(tabIndex);
+        if (tabIndex === 0) {
+            this.switchTab(0);
         }
     }
 
