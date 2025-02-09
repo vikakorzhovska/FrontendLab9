@@ -14,20 +14,10 @@ class Form {
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     }
 
-    addInputField({ name, type = 'text', placeholder = '', validation = null, errorMessage = '' }) {  // зміна тут
-        let wrapper = document.createElement('div');
-        wrapper.className = 'field-wrapper';
-
-        let input = document.createElement('input');
-        input.type = type;
-        input.name = name;
-        input.placeholder = placeholder;
-
-        let errorText = document.createElement('span');
-        errorText.className = 'error-message';
-        errorText.style.color = 'red';
-        errorText.style.display = 'none';
-        errorText.textContent = errorMessage;
+    addInputField({ name, type = 'text', placeholder = '', validation = null, errorMessage = '' }) {
+        let wrapper = this.createFieldWrapper();
+        let input = this.createInputField(name, type, placeholder);
+        let errorText = this.createErrorMessage(errorMessage);
 
         wrapper.appendChild(input);
         wrapper.appendChild(errorText);
@@ -40,25 +30,10 @@ class Form {
         }
     }
 
-    addSelectField({ name, options = [], validation = null, errorMessage = '' }) {  // зміна тут
-        let wrapper = document.createElement('div');
-        wrapper.className = 'field-wrapper';
-
-        let select = document.createElement('select');
-        select.name = name;
-
-        options.forEach(option => {
-            let optionElement = document.createElement('option');
-            optionElement.value = option.value;
-            optionElement.textContent = option.label;
-            select.appendChild(optionElement);
-        });
-
-        let errorText = document.createElement('span');
-        errorText.className = 'error-message';
-        errorText.style.color = 'red';
-        errorText.style.display = 'none';
-        errorText.textContent = errorMessage;
+    addSelectField({ name, options = [], validation = null, errorMessage = '' }) {
+        let wrapper = this.createFieldWrapper();
+        let select = this.createSelectField(name, options);
+        let errorText = this.createErrorMessage(errorMessage);
 
         wrapper.appendChild(select);
         wrapper.appendChild(errorText);
@@ -91,10 +66,7 @@ class Form {
         let isValid = this.validateForm();
 
         if (isValid && this.submitAction) {
-            let formData = {};
-            this.fields.forEach(({ input }) => {
-                formData[input.name] = input.value;
-            });
+            let formData = this.collectFormData();
             this.submitAction(formData);
             alert("Форма успішно відправлена!");
         } else {
@@ -109,15 +81,68 @@ class Form {
             let validation = this.validations[input.name];
             if (validation && !validation.rule(input.value)) {
                 isValid = false;
-                input.style.borderColor = 'red';
-                errorText.style.display = 'block';
+                this.showError(input, errorText);
             } else {
-                input.style.borderColor = '';
-                errorText.style.display = 'none';
+                this.clearError(input, errorText);
             }
         });
 
         return isValid;
+    }
+
+    collectFormData() {
+        let formData = {};
+        this.fields.forEach(({ input }) => {
+            formData[input.name] = input.value;
+        });
+        return formData;
+    }
+
+    showError(input, errorText) {
+        input.style.borderColor = 'red';
+        errorText.style.display = 'block';
+    }
+
+    clearError(input, errorText) {
+        input.style.borderColor = '';
+        errorText.style.display = 'none';
+    }
+
+    createFieldWrapper() {
+        let wrapper = document.createElement('div');
+        wrapper.className = 'field-wrapper';
+        return wrapper;
+    }
+
+    createInputField(name, type, placeholder) {
+        let input = document.createElement('input');
+        input.type = type;
+        input.name = name;
+        input.placeholder = placeholder;
+        return input;
+    }
+
+    createSelectField(name, options) {
+        let select = document.createElement('select');
+        select.name = name;
+
+        options.forEach(option => {
+            let optionElement = document.createElement('option');
+            optionElement.value = option.value;
+            optionElement.textContent = option.label;
+            select.appendChild(optionElement);
+        });
+
+        return select;
+    }
+
+    createErrorMessage(errorMessage) {
+        let errorText = document.createElement('span');
+        errorText.className = 'error-message';
+        errorText.style.color = 'red';
+        errorText.style.display = 'none';
+        errorText.textContent = errorMessage;
+        return errorText;
     }
 }
 
