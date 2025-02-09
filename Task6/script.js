@@ -6,19 +6,33 @@ class Notification {
     }
 
     createNotification(message, type = 'info', duration = 3000) {
-        let notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-
-        let closeButton = document.createElement('span');
-        closeButton.className = 'close-button';
-        closeButton.textContent = '×';
-        closeButton.addEventListener('click', () => this.closeNotification(notification));
+        let notification = this.createNotificationElement(message, type);
+        let closeButton = this.createCloseButton(notification);
 
         notification.appendChild(closeButton);
         this.container.appendChild(notification);
 
-        setTimeout(() => this.closeNotification(notification), duration);
+        this.setAutoClose(notification, duration);
+    }
+
+    createNotificationElement(message, type) {
+        let notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        return notification;
+    }
+
+    createCloseButton(notification) {
+        let closeButton = document.createElement('span');
+        closeButton.className = 'close-button';
+        closeButton.textContent = '×';
+        closeButton.addEventListener('click', () => this.closeNotification(notification));
+        return closeButton;
+    }
+
+    setAutoClose(notification, duration) {
+        const timer = setTimeout(() => this.closeNotification(notification), duration);
+        notification.addEventListener('click', () => clearTimeout(timer)); // Скасувати автозакриття, якщо клікнули на повідомлення
     }
 
     closeNotification(notification) {
